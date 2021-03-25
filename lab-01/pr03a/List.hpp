@@ -23,6 +23,12 @@ public:
         mHead->mNext = mTail;
         mTail->mPrev = mHead;
     }
+    ~List()
+    {
+        clear();
+        delete mHead;
+        delete mTail
+    }
     List(const List &other) : mHead(new Node(T(), nullptr, nullptr)), mTail(new Node(T(), nullptr, nullptr)), msize(0)
     {
         mHead->mNext = mTail;
@@ -34,24 +40,47 @@ public:
     }
     List(List &&other) : mHead(new Node(T(), nullptr, nullptr)), mTail(new Node(T(), nullptr, nullptr)), msize(0)
     {
-        mHead = other.mTail;
-        mTail = other.mHead;
-        other.mHead = nullptr;
-        other.mTail = nullptr;
-    }
-    List &operator=(const List &other)
-    {
-        if (this != &other) // not a self-assignment
+        mHead = other.mHead;
+        mTail = other.mTail;
+        for (auto i = other.begin(); i != other.end(); i++)
         {
-            if (msize != other.msize) // resource cannot be reused
-            {
-                mHead = other.mTail;
-                mTail = other.mHead;
-                size = other.size;
-            }
-            std::copy(&other.begin(), &other.end(), &mHead);
+            pushBack(*i);
         }
-        return *this;
+        for (auto i = other.begin(); i != other.end(); i++)
+        {
+            *i = T();
+        }
+        other.begin()->mPtr = nullptr;
+        other.end()->mPtr = nullptr;
+    }
+    void operator=(List &other)
+    {
+        mHead->mNext = mTail;
+        mTail->mPrev = mHead;
+        for (auto i = other.begin(); i != other.end(); i++)
+        {
+            pushBack(*i);
+        }
+    }
+    void operator=(List &&other)
+    {
+        if (*this != other)
+        {
+            for (auto i = other.begin(); i != other.end(); i++)
+            {
+                erase(i);
+            }
+            mHead->mNext = mTail;
+            mTail->mPrev = mHead;
+            for (auto i = other.begin(); i != other.end(); i++)
+            {
+                pushBack(*i);
+            }
+            for (auto i = other.begin(); i != other.end(); i++)
+            {
+                *i = T();
+            }
+        }
     }
     std::string toStr() const
     {
@@ -144,6 +173,18 @@ public:
     class Iter;
     class RIter;
 
+    Iter insert(Iter p, const T &x)
+    {
+        Iter t;
+
+        t.mPtr = new Node(x, p.mPtr->mPrev, p.mPtr);
+
+        p.mPtr->mPrev = t.mPtr;
+        t.mPtr->mPrev->mNext = t.mPtr;
+        ++msize;
+
+        return t;
+    }
     Iter erase(Iter pos)
     {
         Iter r = pos;

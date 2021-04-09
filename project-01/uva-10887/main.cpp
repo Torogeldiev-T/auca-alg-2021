@@ -31,11 +31,6 @@ int main()
         {
             for (int k = 0; k < n; k++)
             {
-                if (s1[j].empty())
-                    s1[j] = "-";
-                if (s2[k].empty())
-                    s2[k] = "+";
-
                 string temp = s1[j] + s2[k];
                 if (res_set.insert(temp).second)
                     res++;

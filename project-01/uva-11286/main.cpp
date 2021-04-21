@@ -45,6 +45,6 @@ int main()
             if (p->second >= max)
                 res += p->second;
         }
-        cout << res << endl;
+        cout << res << "\n";
     }
 }

@@ -11,34 +11,24 @@ int main()
     {
         int m;
         cin >> m;
-        vector<int> v;
-        int max = 0;
-        for (int j = 0; j < m; j++)
+        unordered_map<int, int> maps;
+        int maxv = 0, curr = 0, counter = 0, maxpack = 0;
+        for (int j = 1; j <= m; j++)
         {
             int sf;
             cin >> sf;
-            v.push_back(sf);
-        }
-        for (int j = 0; j < v.size(); j++)
-        {
-            int curr = 0;
-            unordered_map<int, int> temp;
-            for (int k = j; k < v.size(); k++)
+            int seen = maps[sf];
+
+            if (seen)
             {
-                auto p = temp.find(v[k]);
-                if (p != temp.end())
-                {
-                    j = p->second;
-                    break;
-                }
-                curr++;
-                temp.insert({v[k], k});
+                maxv = max(maxv, seen);
+                counter = j - maxv - 1;
             }
-            if (max < curr)
-            {
-                max = curr;
-            }
+
+            counter++;
+            maps[sf] = j;
+            maxpack = max(maxpack, counter);
         }
-        printf("%d\n", max);
+        printf("%d\n", maxpack);
     }
 }

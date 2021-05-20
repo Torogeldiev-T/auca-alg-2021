@@ -51,6 +51,7 @@ int main()
 
             students.clear();
             projects.clear();
+            res.clear();
         }
         else if (isupper(s[0]))
         {

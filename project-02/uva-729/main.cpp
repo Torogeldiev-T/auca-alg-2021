@@ -29,5 +29,7 @@ int main()
         {
             cout << res[i] << endl;
         }
+        if (n > 0)
+            cout << endl;
     }
 }

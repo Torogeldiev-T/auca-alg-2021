@@ -2,7 +2,11 @@
 #include <vector>
 using namespace std;
 int r, c;
-int rows, columns;
+const int xMoves[] = {-1, 0, 1};
+const int yMoves[] = {0, -1, 0};
+vector<string> dirs = {"left", "forth", "right"};
+string rule = "IEHOVA#";
+int idx = 0;
 bool isPossible(char ch)
 {
     return ch == 'I' || ch == 'E' || ch == 'H' || ch == 'O' || ch == 'V' || ch == 'A' || ch == '#';
@@ -11,27 +15,17 @@ void solve(vector<vector<bool>> &used, vector<string> &solution, vector<vector<c
 {
     if (path[r][c] == '#')
         return;
-    if (isPossible(path[r][c + 1]) && !used[r][c + 1])
+    for (int i = 0; i < 3; i++)
     {
-        used[r][c + 1] = 1;
-        solution.push_back("right");
-        c++;
-        solve(used, solution, path);
+        if (r + yMoves[i] >= 0 && r + yMoves[i] < path.size() && c + xMoves[i] >= 0 && c + xMoves[i] < path[r].size() && path[r + yMoves[i]][c + xMoves[i]] == rule[idx])
+        {
+            solution.push_back(dirs[i]);
+            r += yMoves[i];
+            c += xMoves[i];
+            idx++;
+        }
     }
-    else if (isPossible(path[r][c - 1]) && !used[r][c - 1])
-    {
-        used[r][c - 1] = 1;
-        solution.push_back("left");
-        c--;
-        solve(used, solution, path);
-    }
-    else if (isPossible(path[r - 1][c]) && !used[r - 1][c])
-    {
-        used[r - 1][c] = 1;
-        solution.push_back("forth");
-        r--;
-        solve(used, solution, path);
-    }
+    solve(used, solution, path);
 }
 int main()
 {
@@ -69,5 +63,6 @@ int main()
                 cout << " ";
             }
         }
+        idx = 0;
     }
 }

@@ -18,7 +18,8 @@ int main()
 {
 
     int n, b = 0;
-    while (cin >> n)
+    cin >> n;
+    for (int k = 0; k < n; k++)
     {
         int roads, queries;
         cin >> roads >> queries;
@@ -74,5 +75,7 @@ int main()
             }
             cout << endl;
         }
+        if (k != n - 1)
+            cout << endl;
     }
 }

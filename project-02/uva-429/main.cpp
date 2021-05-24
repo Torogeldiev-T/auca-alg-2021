@@ -85,8 +85,9 @@ int main()
                 }
             }
             cout << src << " " << dest << " " << distances[dest] << endl;
-            if (k != n - 1)
-                cout << "\n";
         }
+
+        if (k != n - 1)
+            cout << "\n";
     }
 }
